@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=D:/code/uC/LP_ECG/Inc
+HeaderPath=C:/Code/uC/LP_ECG/Inc
 HeaderFiles=stm32g0xx_it.h;stm32g0xx_hal_conf.h;main.h;
-SourcePath=D:/code/uC/LP_ECG/Src
+SourcePath=C:/Code/uC/LP_ECG/Src
 SourceFiles=stm32g0xx_it.c;stm32g0xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]

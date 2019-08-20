@@ -61,8 +61,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define HJ_CONFIG_Pin GPIO_PIN_14
 #define HJ_CONFIG_GPIO_Port GPIOC
-#define HJ_SLEEP_Pin GPIO_PIN_15
-#define HJ_SLEEP_GPIO_Port GPIOC
+#define HJ_WAKE_Pin GPIO_PIN_15
+#define HJ_WAKE_GPIO_Port GPIOC
 #define HJ_TX_Pin GPIO_PIN_2
 #define HJ_TX_GPIO_Port GPIOA
 #define HJ_RX_Pin GPIO_PIN_3
