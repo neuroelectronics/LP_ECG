@@ -112,10 +112,13 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
+	HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(HJ_WAKE_GPIO_Port,HJ_WAKE_Pin,GPIO_PIN_SET); //PUT BLE TO SLEEP
+	HAL_GPIO_WritePin(HJ_CONFIG_GPIO_Port,HJ_CONFIG_Pin,GPIO_PIN_SET);
 	dataMGR_init(&MGR,(char*) data_buf,sizeof(data_buf));					//FIFO setup 
 	HAL_ADC_Start(&hadc1);
 	HAL_TIM_Base_Start_IT(&htim14);
-
+	HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_RESET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,6 +128,22 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		if(MGR.bufferUsed[0]>127)
+		{
+			HAL_GPIO_WritePin(HJ_WAKE_GPIO_Port,HJ_WAKE_Pin,GPIO_PIN_RESET); //Wake BLE up
+			uint8_t pkt_start[2]={0xad,0xad};
+			uint8_t pkt_end[2]={0xda,0xda};
+			HAL_UART_Transmit(&hlpuart1,pkt_start,2,1000);
+			HAL_UART_Transmit(&hlpuart1,((uint8_t*)data_buf+MGR.outPTR[0]),128,1000);
+			HAL_UART_Transmit(&hlpuart1,pkt_end,2,1000);
+			dataMGR_deQueue(&MGR,128,0);
+			HAL_GPIO_WritePin(HJ_WAKE_GPIO_Port,HJ_WAKE_Pin,GPIO_PIN_SET); //SLEEP BLE
+
+		}
+		else
+		{
+			HAL_PWR_EnterSLEEPMode(PWR_LOWPOWERREGULATOR_ON,PWR_SLEEPENTRY_WFI);	
+		}
   }
   /* USER CODE END 3 */
 }
@@ -141,12 +160,12 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage 
   */
-  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE2);
   /** Initializes the CPU, AHB and APB busses clocks 
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
+  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV64;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -200,10 +219,10 @@ static void MX_ADC1_Init(void)
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_LEFT;
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  hadc1.Init.LowPowerAutoWait = ENABLE;
+  hadc1.Init.LowPowerAutoWait = DISABLE;
   hadc1.Init.LowPowerAutoPowerOff = ENABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.NbrOfConversion = 1;
@@ -214,10 +233,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_1CYCLE_5;
   hadc1.Init.SamplingTimeCommon2 = ADC_SAMPLETIME_1CYCLE_5;
-  hadc1.Init.OversamplingMode = ENABLE;
-  hadc1.Init.Oversampling.Ratio = ADC_OVERSAMPLING_RATIO_4;
-  hadc1.Init.Oversampling.RightBitShift = ADC_RIGHTBITSHIFT_NONE;
-  hadc1.Init.Oversampling.TriggeredMode = ADC_TRIGGEREDMODE_SINGLE_TRIGGER;
+  hadc1.Init.OversamplingMode = DISABLE;
   hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_LOW;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
@@ -388,9 +404,9 @@ static void MX_TIM14_Init(void)
 
   /* USER CODE END TIM14_Init 1 */
   htim14.Instance = TIM14;
-  htim14.Init.Prescaler = 1599;
+  htim14.Init.Prescaler = 249;
   htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim14.Init.Period = 99;
+  htim14.Init.Period = 1;
   htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim14.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim14) != HAL_OK)
@@ -440,6 +456,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pins : HJ_CONFIG_Pin HJ_WAKE_Pin */
   GPIO_InitStruct.Pin = HJ_CONFIG_Pin|HJ_WAKE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -482,8 +501,9 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : LED_Pin */
   GPIO_InitStruct.Pin = LED_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
 
 }

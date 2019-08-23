@@ -54,6 +54,7 @@ void PendSV_Handler(void);
 void SysTick_Handler(void);
 void DMA1_Channel1_IRQHandler(void);
 void TIM14_IRQHandler(void);
+void USART3_4_LPUART1_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

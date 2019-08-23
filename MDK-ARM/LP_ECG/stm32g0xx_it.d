@@ -42,3 +42,6 @@ lp_ecg\stm32g0xx_it.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart_ex
 lp_ecg\stm32g0xx_it.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_ll_system.h
 lp_ecg\stm32g0xx_it.o: ../Inc/stm32g0xx_it.h
 lp_ecg\stm32g0xx_it.o: ../Inc/dataMGR.h
+lp_ecg\stm32g0xx_it.o: ../Inc/CE32_HJ580.h
+lp_ecg\stm32g0xx_it.o: ../Inc/dataMGR.h
+lp_ecg\stm32g0xx_it.o: ../Inc/CE32_macro.h

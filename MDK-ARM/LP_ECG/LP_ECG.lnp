@@ -31,6 +31,6 @@
 "lp_ecg\stm32g0xx_hal_exti.o"
 "lp_ecg\system_stm32g0xx.o"
 --library_type=microlib --strict --scatter "LP_ECG\LP_ECG.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "LP_ECG.map" -o LP_ECG\LP_ECG.axf
