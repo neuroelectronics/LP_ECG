@@ -45,3 +45,5 @@ lp_ecg\stm32g0xx_it.o: ../Inc/dataMGR.h
 lp_ecg\stm32g0xx_it.o: ../Inc/CE32_HJ580.h
 lp_ecg\stm32g0xx_it.o: ../Inc/dataMGR.h
 lp_ecg\stm32g0xx_it.o: ../Inc/CE32_macro.h
+lp_ecg\stm32g0xx_it.o: ../Inc/CE32_sqrs.h
+lp_ecg\stm32g0xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

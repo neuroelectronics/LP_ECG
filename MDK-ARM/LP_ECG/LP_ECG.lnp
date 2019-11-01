@@ -5,6 +5,7 @@
 "lp_ecg\main.o"
 "lp_ecg\stm32g0xx_it.o"
 "lp_ecg\stm32g0xx_hal_msp.o"
+"lp_ecg\ce32_sqrs.o"
 "lp_ecg\stm32g0xx_hal_gpio.o"
 "lp_ecg\stm32g0xx_hal_adc.o"
 "lp_ecg\stm32g0xx_hal_adc_ex.o"

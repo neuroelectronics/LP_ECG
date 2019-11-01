@@ -2,8 +2,8 @@
 
 #ifndef dataMGR_def
 #define dataMGR_def
-
-#define MGR_STATE_TRANSBUSY 0x00000001U	//Transfer packet is on
+//Transfer packet is on
+#define MGR_STATE_TRANSBUSY 0x00000001U	
 #define MGR_STATE_TRANSCPLT 0x00000002U
 #define MGR_STATE_DSPBUSY 	0x00000004U
 #define MGR_STATE_LOGGING 	0x00000008U

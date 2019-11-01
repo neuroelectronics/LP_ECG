@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "dataMGR.h"
 #include "CE32_HJ580.h"
+#include "CE32_sqrs.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -166,7 +167,17 @@ void TIM14_IRQHandler(void)
   /* USER CODE BEGIN TIM14_IRQn 0 */
 	ADC1->CR|=ADC_CR_ADSTART;//Start conversion once
 	TIM14->SR&=~TIM_SR_UIF; //Clear interrupt flag(to make next interrupt could happen)
-	dataMGR_enQueue_halfword(&MGR,ADC1->DR+0x8000); //Move newly acquired data to buffer
+	short temp=ADC1->DR+0x8000;
+	dataMGR_enQueue_halfword(&MGR,temp); //Move newly acquired data to buffer
+	char resp=sqrs(temp);
+	if(resp==1)
+	{
+		HAL_GPIO_WritePin(SD_CS_GPIO_Port,SD_CS_Pin,GPIO_PIN_SET);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(SD_CS_GPIO_Port,SD_CS_Pin,GPIO_PIN_RESET);
+	}
   /* USER CODE END TIM14_IRQn 0 */
   /* USER CODE BEGIN TIM14_IRQn 1 */
 
