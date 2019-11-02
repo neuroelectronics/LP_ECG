@@ -7,18 +7,18 @@ char sqrs(short data)
 		static short t0,t1,t2,t3,t4,t5,t6,t7,t8,t9;
 	  static short filter; //Filtered data
 		static short nslope=0;
-		static short slopecrit=0;
+		static short slopecrit=5000;
 		static short maxslope=0;
-		static short scmin=0;
-		static short scmax=0;
-		static unsigned short maxtime=0;
+		static short scmin=500;
+		static short scmax=5000;
+		static short maxtime=0;
 		static short sign=0;
 	
-		static long time=0; //Time passed from last QRS
-		static long qtime=0;
-		const unsigned short s2=fs*2;
-		const unsigned short ms160=fs*0.16;
-		const unsigned short ms200=fs*0.2;
+		static short time=0; //Time passed from last QRS
+		static short qtime=0;
+		const  short s2=500;
+		const  short ms160=40;
+		const  short ms200=50;
 	
 		char resp=0;
 	  t0 = data;

@@ -29,12 +29,8 @@ lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_ad
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_exti.h
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_flash.h
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_flash_ex.h
-lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_i2c.h
-lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_i2c_ex.h
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr.h
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr_ex.h
-lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_spi.h
-lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_spi_ex.h
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim.h
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim_ex.h
 lp_ecg\stm32g0xx_hal_msp.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h

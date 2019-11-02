@@ -165,18 +165,25 @@ void DMA1_Channel1_IRQHandler(void)
 void TIM14_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM14_IRQn 0 */
+	
 	ADC1->CR|=ADC_CR_ADSTART;//Start conversion once
 	TIM14->SR&=~TIM_SR_UIF; //Clear interrupt flag(to make next interrupt could happen)
 	short temp=ADC1->DR+0x8000;
-	dataMGR_enQueue_halfword(&MGR,temp); //Move newly acquired data to buffer
-	char resp=sqrs(temp);
+	//dataMGR_enQueue_halfword(&MGR,temp); //Move newly acquired data to buffer
+	char resp=sqrs(temp/20);
 	if(resp==1)
 	{
-		HAL_GPIO_WritePin(SD_CS_GPIO_Port,SD_CS_Pin,GPIO_PIN_SET);
+		//LED_GPIO_Port->BSRR|=LED_Pin;
+		SD_MOSI_GPIO_Port->BSRR|=SD_MOSI_Pin;
+		//HAL_GPIO_WritePin(SD_CS_GPIO_Port,SD_CS_Pin,GPIO_PIN_SET);
+		//HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_SET);
 	}
 	else
 	{
-		HAL_GPIO_WritePin(SD_CS_GPIO_Port,SD_CS_Pin,GPIO_PIN_RESET);
+		//LED_GPIO_Port->BSRR|=LED_Pin<<16;
+		SD_MOSI_GPIO_Port->BSRR|=SD_MOSI_Pin<<16;
+		//HAL_GPIO_WritePin(SD_CS_GPIO_Port,SD_CS_Pin,GPIO_PIN_RESET);
+		//HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_RESET);
 	}
   /* USER CODE END TIM14_IRQn 0 */
   /* USER CODE BEGIN TIM14_IRQn 1 */

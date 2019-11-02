@@ -67,12 +67,6 @@ void Error_Handler(void);
 #define HJ_TX_GPIO_Port GPIOA
 #define HJ_RX_Pin GPIO_PIN_3
 #define HJ_RX_GPIO_Port GPIOA
-#define SD_CS_Pin GPIO_PIN_15
-#define SD_CS_GPIO_Port GPIOA
-#define SD_SCK_Pin GPIO_PIN_3
-#define SD_SCK_GPIO_Port GPIOB
-#define SD_MISO_Pin GPIO_PIN_4
-#define SD_MISO_GPIO_Port GPIOB
 #define SD_MOSI_Pin GPIO_PIN_5
 #define SD_MOSI_GPIO_Port GPIOB
 #define LED_Pin GPIO_PIN_8
